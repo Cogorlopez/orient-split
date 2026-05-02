@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FoldSplit</string>
+    <string name="tile_label">Split Orientation</string>
+</resources>
