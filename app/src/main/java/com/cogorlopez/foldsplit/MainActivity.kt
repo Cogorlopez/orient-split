@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                 val runner = ShizukuCommandRunner()
                 runner.init()
                 @Suppress("UNCHECKED_CAST")
-                return SetupViewModel(runner, FoldMonitor(applicationContext), this@MainActivity) as T
+                return SetupViewModel(runner, FoldMonitor(applicationContext)) as T
             }
         }
     }

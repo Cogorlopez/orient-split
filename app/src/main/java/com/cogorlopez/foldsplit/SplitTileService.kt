@@ -5,6 +5,7 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.combine
@@ -15,6 +16,7 @@ class SplitTileService : TileService() {
 
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.Main + job)
+    private var listeningJob: Job? = null
 
     private lateinit var runner: ShizukuCommandRunner
     private lateinit var stateManager: SplitStateManager
@@ -34,7 +36,7 @@ class SplitTileService : TileService() {
 
     override fun onStartListening() {
         super.onStartListening()
-        scope.launch {
+        listeningJob = scope.launch {
             combine(
                 runner.state,
                 stateManager.isLandscapeFlow,
@@ -47,8 +49,8 @@ class SplitTileService : TileService() {
 
     override fun onStopListening() {
         super.onStopListening()
-        // Cancel the collection launched in onStartListening by restarting the job scope next time
-        scope.coroutineContext[SupervisorJob]?.children?.forEach { it.cancel() }
+        listeningJob?.cancel()
+        listeningJob = null
     }
 
     override fun onClick() {

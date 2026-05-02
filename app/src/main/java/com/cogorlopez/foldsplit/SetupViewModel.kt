@@ -1,6 +1,5 @@
 package com.cogorlopez.foldsplit
 
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -11,13 +10,12 @@ import kotlinx.coroutines.flow.stateIn
 class SetupViewModel(
     val runner: ShizukuCommandRunner,
     foldMonitor: FoldMonitor,
-    lifecycleOwner: LifecycleOwner,
 ) : ViewModel() {
 
     val shizukuState: StateFlow<RunnerState> = runner.state
         .stateIn(viewModelScope, SharingStarted.Eagerly, RunnerState.UNAVAILABLE)
 
-    val foldState: StateFlow<FoldState> = foldMonitor.foldStateFlow(lifecycleOwner)
+    val foldState: StateFlow<FoldState> = foldMonitor.foldStateFlow()
         .stateIn(viewModelScope, SharingStarted.Eagerly, FoldState.FOLDED)
 
     val setupComplete: StateFlow<Boolean> =
