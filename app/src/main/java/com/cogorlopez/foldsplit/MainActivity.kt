@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -31,17 +32,20 @@ class MainActivity : ComponentActivity() {
                 val runner = ShizukuCommandRunner()
                 runner.init()
                 @Suppress("UNCHECKED_CAST")
-                return SetupViewModel(runner, FoldMonitor(applicationContext)) as T
+                return SetupViewModel(runner) as T
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val foldMonitor = FoldMonitor(this)
         setContent {
+            val foldState by remember { foldMonitor.foldStateFlow() }
+                .collectAsState(initial = FoldState.FOLDED)
             MaterialTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    SetupScreen(viewModel)
+                    SetupScreen(viewModel, foldState)
                 }
             }
         }
@@ -58,9 +62,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun SetupScreen(viewModel: SetupViewModel) {
+private fun SetupScreen(viewModel: SetupViewModel, foldState: FoldState) {
     val shizukuState by viewModel.shizukuState.collectAsState()
-    val foldState by viewModel.foldState.collectAsState()
     val setupComplete by viewModel.setupComplete.collectAsState()
 
     Column(

@@ -5,9 +5,7 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.suspendCancellableCoroutine
 import rikka.shizuku.Shizuku
-import kotlin.coroutines.resume
 
 enum class RunnerState { UNAVAILABLE, PERMISSION_NEEDED, READY }
 
