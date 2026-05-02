@@ -106,7 +106,7 @@ class ShizukuCommandRunner {
         )
     )
         .daemon(false)
-        .processNameSuffix("user_service")
+        .tag("user_service")
         .debuggable(false)
         .version(1)
 
