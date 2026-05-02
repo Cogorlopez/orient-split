@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Outer rectangle representing the screen -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="?android:attr/colorControlNormal"
+        android:strokeWidth="1.5"
+        android:pathData="M2,4 h20 v16 h-20 z" />
+    <!-- Vertical divider for left-right split -->
+    <path
+        android:strokeColor="?android:attr/colorControlNormal"
+        android:strokeWidth="1.5"
+        android:pathData="M12,4 V20" />
+</vector>
